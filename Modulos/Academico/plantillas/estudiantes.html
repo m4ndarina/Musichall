@@ -1,0 +1,122 @@
+{% extends base_template %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>{% block title %} Estudiantes {% endblock %}</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+	{% block content %}
+	<script src='{% static "js/app.js"%}'></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <!--<div class="container-fluid">-->
+            <form class="d-flex" method="GET" action="{% url 'estudiante' %}">
+              <div class="input-group">
+                <input type="text" class="form-control me-2" placeholder="Buscar" name="buscar" value="{{ request.GET.buscar }}" aria-label="Search">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-success" type="submit">Buscar
+                    </button>
+                  </div>
+              </div>
+            </form>
+        </nav>
+
+    <br>
+    <h2 style="color: #9365cf; font-weight: bolder;">Estudiantes</h2>
+    <br>
+
+    <div class="card-container">
+    {% for c in estudiante %}
+    <div class="card" style="width: 18rem;">
+    <img src="{{ c.imagen.url }}" class="card-img-top" alt="">
+    <div class="card-body">
+        <h5 class="card-title">{{c.nombreCompleto}}</h5>
+        <p class="card-text"></p>
+        <a href="{% url 'perfil_estudiante' c.dni_estudiante %}" class="btn btn-info btn-sm" style="background-color: #9365cf; border-color: #9365cf;"><i class="bi bi-arrow-right"></i></a>
+        {% if request.session.rol != 'Estudiante' %}
+        <a href="{% url 'modificar_estudiante' c.dni_estudiante %}" class="btn btn-info btn-sm" style="background-color: #613896; border-color: #613896;"><i class="bi bi-pencil-fill"></i></a>
+        <a href="#" data-codigo="{{ c.dni_estudiante }}" onclick="eliminarestudiante(this)" class="btn btn-danger btn-sm" style="background-color: #613896; border-color: #613896;"><i class="bi bi-trash"></i></a>
+        {% endif %}
+    </div>
+    </div>
+    {% endfor %}
+    </div>
+
+    <div style="display: flex; justify-content: space-between;">
+        <a href="{% url 'crear_pdf'  %}" class="btn btn-info btn-sm" style="background-color: #9365cf; border-color: #9365cf;">Imprimir</a>
+        {% if request.session.rol != 'Estudiante' %}
+        <a href="{% url 'agregar_estudiante' %}"  class="btn btn-success btn-sm" style="margin-left: 10px; background-color: #613896; border-color: #613896;"><i class="bi bi-plus"></i></a>
+        {% endif %}
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function eliminarestudiante(elemento){
+          var codigo = elemento.getAttribute("data-codigo");
+          Swal.fire({
+            "title": "¿Estás seguro?",
+            "text": "Esta acción no se puede deshacer",
+            "icon": "question",
+            "showCancelButton": true,
+            "cancelButtonText": "No, cancelar",
+            "confirmButtonText": "Si, eliminar",
+            "reverseButtons": true,
+            "confirmButtonColor":"#dc3545"
+          })
+          .then(function(result){
+            if(result.isConfirmed){
+              window.location.href ="/eliminar-estudiante/"+codigo+"/"
+            }
+          })
+        }
+      </script>
+
+    <style>
+        .card-container {
+        display: flex;
+        flex-wrap: wrap; /* This allows cards to wrap to the next line if needed */
+        margin-left: 0 auto; /* This centers the cards horizontally */
+        margin-bottom: 20px;
+        }
+        .card {
+        margin:10px;
+        margin-top: 0;
+        padding: 1.5em 0.5em 0.5em;
+        border-radius: 2em;
+        text-align: center;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        }
+        .card img {
+        width: 150px; /* Adjust width as needed */
+        height: 150px; /* Adjust height as needed */
+        object-fit: cover; /* Or object-fit: contain; */
+        border-radius: 50%;
+        margin: 0 auto;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+        .card .card-title {
+        font-weight: 700;
+        font-size: 1.5em;
+        color: #332f38;
+        }
+        .card .btn {
+        border-radius: 2em;
+        color: #ffffff;
+        padding: 0.5em 1.5em;
+        }
+        .card .btn:hover {
+        background-color: rgba(0, 128, 128, 0.7);
+        color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+{% endblock %}
+</body>
+</html>
