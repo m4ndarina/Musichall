@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Hammersmith+One&display=swap');
+
+body{
+    background-color:#cfd9df;
+    background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+    align-items: center;
+}
+* {
+    font-family: 'Hammersmith One';
+}
+div#app-title {
+    font-size: 2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #5e5e5e;
+}
+ 
+div#bpm-container {
+    width: 300px;
+    height: 300px;
+    padding: 5px;
+    background: #957dad;
+    border-radius: 100%;
+    border: 12px dashed #4B1D57;
+}
+ 
+div#bpm-container>span:nth-child(1) {
+    font-size: 4rem;
+    font-weight: 600;
+    color: #ffffff;
+    letter-spacing: 5px;
+}
+ 
+div#bpm-container>span:nth-child(2) {
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #ffffff;
+}
+ 
+div.beatsText {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+ 
+button.beatsBTN{
+    transition: transform .1s ease;
+}
+button.beatsBTN:active{
+    transform: scale(.9);
+}
+#playMetronome{
+    border: 6px dashed #4B1D57;
+    background: #957dad;
+    color: #4B1D57;
+}
+#stopMetronome{
+    display: none;
+    border: 6px dashed #b14536;
+    background: #fe9a8b;
+    color: #6e0d00;
+}
+button.controlBtns {
+    height: 50px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+}
